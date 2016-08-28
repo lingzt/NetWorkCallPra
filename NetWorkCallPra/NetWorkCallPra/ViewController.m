@@ -39,14 +39,17 @@
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
     //5.URLSessionTask or URLSessionUploadTask or URLSessionDownloadTask
     NSURLSessionTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if (data) {
-            NSLog(@"%@ data .......",data.description);
-        }
         
-        if (error) {
-            NSLog(@"%@ error .......",error.description);
+        //6. Use cast HTTPURLResponse to NSHTTPURLResponse
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        //7.  Conver JSON to Dictionary
+        if (httpResponse.statusCode == 200){
+            NSError *JSONError;
+            NSMutableDictionary *JSONDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&JSONError];
+            NSLog(@"%@",JSONDict);
+        }else{
+            NSLog(@"ERROR: %@",error);
         }
-        
     }];
     [dataTask resume];
 
