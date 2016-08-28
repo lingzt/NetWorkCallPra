@@ -48,6 +48,7 @@
             NSMutableDictionary *JSONDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&JSONError];
             NSLog(@"%@",JSONDict);
         }else{
+            NSLog(@"httpResponse.statusCode: %lu", (long)httpResponse.statusCode);
             NSLog(@"ERROR: %@",error);
         }
     }];
